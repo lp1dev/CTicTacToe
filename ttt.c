@@ -31,7 +31,7 @@ int has_won(char *board, int *player){
   for (int i = 0; i < BOARD_SIZE; i += ROW_SIZE){
     for (int j = 0; j < ROW_SIZE; j++){
       if (board[(j + i)] != board[(j + i) + 1])
-	continue;
+	break;
       if (j + 2 == ROW_SIZE && board[(j + i)] != '0')
 	return *player;
     }
@@ -40,7 +40,7 @@ int has_won(char *board, int *player){
   for (int i = 0; i < ROW_SIZE; i++){
     for (int j = 0; j < BOARD_SIZE; j += ROW_SIZE){
       if (board[(j + i)] != board[(j + i) + ROW_SIZE])
-	continue;
+	break;
       if (((j + i) + ROW_SIZE) >= BOARD_SIZE - ROW_SIZE && board[(j + i)] != '0')
 	return *player;
     }
@@ -50,16 +50,18 @@ int has_won(char *board, int *player){
   //Right diagonal
   for (int i = 0; i < BOARD_SIZE; i += acc){
     if (board[i] != board[i + acc])
-      continue;
-    if ((i + acc) >= BOARD_SIZE - ROW_SIZE && board[i] != '0')
+      break;
+    if ((i + acc) + 1 == (BOARD_SIZE) && board[i] != '0'){
+      printf("RIGHT DIAGONAL !\n");
       return *player;
+    }
   }
   //Left diagonal
   acc = ROW_SIZE - 1;
   for (int i = (ROW_SIZE - 1); i < BOARD_SIZE; i += acc){
     if (board[i] != board[i + acc])
-      continue;
-    if ((i + acc) >= BOARD_SIZE - ROW_SIZE && board[i] != '0')
+      break;
+    if ((i + (acc + acc + 1)) >= BOARD_SIZE && board[i] != '0')
       return *player;
   }
   //Checking tie
