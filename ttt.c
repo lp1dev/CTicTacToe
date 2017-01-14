@@ -6,7 +6,7 @@
 
 #define STDIN 0
 #define STDOUT 1
-#define BUFFER_SIZE 512
+#define BUFFER_SIZE 8
 #define ROW_SIZE 3
 #define BOARD_SIZE ROW_SIZE*ROW_SIZE
 #define true 1
@@ -44,6 +44,23 @@ int has_won(char *board, int *player){
       if (((j + i) + ROW_SIZE) >= BOARD_SIZE - ROW_SIZE && board[(j + i)] != '0')
 	return *player;
     }
+  }
+  //Checking diagonals
+  int acc = ROW_SIZE + 1;
+  //Right diagonal
+  for (int i = 0; i < BOARD_SIZE; i += acc){
+    if (board[i] != board[i + acc])
+      continue;
+    if ((i + acc) >= BOARD_SIZE - ROW_SIZE && board[i] != '0')
+      return *player;
+  }
+  //Left diagonal
+  acc = ROW_SIZE - 1;
+  for (int i = (ROW_SIZE - 1); i < BOARD_SIZE; i += acc){
+    if (board[i] != board[i + acc])
+      continue;
+    if ((i + acc) >= BOARD_SIZE - ROW_SIZE && board[i] != '0')
+      return *player;
   }
   //Checking tie
   for (int i = 0; i < BOARD_SIZE; i++){
