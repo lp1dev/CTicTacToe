@@ -74,7 +74,7 @@ int has_won(char *board, int *player){
 }
 
 int process_input(char *board, int input, int *player, int *winner){
-  char playerChar = *player == 1? 'O' : 'X';
+  char playerChar = *player == 1? 'X' : 'O';
 
   if (input > BOARD_SIZE)
     write(STDOUT, "INPUT ERROR\n", 12);
