@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <math.h>
 
 #define STDIN 0
@@ -8,6 +9,8 @@
 #define BUFFER_SIZE 512
 #define ROW_SIZE 3
 #define BOARD_SIZE ROW_SIZE*ROW_SIZE
+#define true 1
+#define false 0
 
 void clear_board(char *board){
   for (int i = 0; i < BOARD_SIZE; i++){
@@ -23,36 +26,65 @@ void print_board(char *board){
   }
 }
 
-void process_input(char *board, int input, int *player){
-  char playerChar = 'X';
+int has_won(char *board, int *player){
+  //Checking rows
+  for (int i = 0; i < BOARD_SIZE; i += ROW_SIZE){
+    for (int j = i; j < ROW_SIZE; j++){
+      if (board[j] != board[j + 1])
+	break;
+      if ((j - i) == ROW_SIZE - 1)
+	return *player;
+    }
+  }
+  //Checking tie
+  for (int i = 0; i < BOARD_SIZE; i++){
+    if (board[i] == '0')
+      break;
+    if ((i + 1) == BOARD_SIZE)
+      return -1;
+  }
+  return false;
+}
+
+int process_input(char *board, int input, int *player, int *winner){
+  char playerChar = *player ? 'O' : 'X';
+
   if (input > BOARD_SIZE)
     write(STDOUT, "INPUT ERROR\n", 12);
   else if (board[input] != '0')
     write(STDOUT, "INVALID MOVE\n", 13);
   else {
-    if (*player == 1)
-      playerChar = 'O';
     board[input] = playerChar;
     *player = !(*player);
+    print_board(board);
+    if (*winner = has_won(board, player)){
+      return false;
+    }
   }
-  print_board(board);
+  return true;
 }
 
 int game(){
   char buffer[BUFFER_SIZE];
   char board[BOARD_SIZE];
   int userInput;
-  int stop = 0;
+  int winner = -1;
   int player = 0;
 
   clear_board(&board);
   print_board(&board);
-  while (read(STDIN, buffer, BUFFER_SIZE) && !stop){
+  while (read(STDIN, buffer, BUFFER_SIZE)){
     userInput = atoi(buffer);
-    process_input(&board, userInput, &player);
+    if (!process_input(&board, userInput, &player, &winner))
+      return winner;
   }
+  return -1;
 }
 
 int main(int argc, char **argv){
   int result = game();
+  if (result > 0)
+    printf("Player %i won!\n", result);
+  else
+    printf("Tie!\n", result);
 }
