@@ -86,8 +86,8 @@ int process_input(char *board, int input, int *player, int *winner){
     if (*winner = has_won(board, player)){
       return false;
     }
+    *player = *player == 2 ? 1 : 2;
   }
-  *player = *player == 2 ? 1 : 2;
   return true;
 }
 
