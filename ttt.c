@@ -32,7 +32,16 @@ int has_won(char *board, int *player){
     for (int j = 0; j < ROW_SIZE; j++){
       if (board[(j + i)] != board[(j + i) + 1])
 	continue;
-      if (j + 1 == ROW_SIZE && board[j] != '0')
+      if (j + 2 == ROW_SIZE && board[(j + i)] != '0')
+	return *player;
+    }
+  }
+  //Checking lines
+  for (int i = 0; i < ROW_SIZE; i++){
+    for (int j = 0; j < BOARD_SIZE; j += ROW_SIZE){
+      if (board[(j + i)] != board[(j + i) + ROW_SIZE])
+	continue;
+      if (((j + i) + ROW_SIZE) >= BOARD_SIZE - ROW_SIZE && board[(j + i)] != '0')
 	return *player;
     }
   }
