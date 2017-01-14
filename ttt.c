@@ -29,10 +29,10 @@ void print_board(char *board){
 int has_won(char *board, int *player){
   //Checking rows
   for (int i = 0; i < BOARD_SIZE; i += ROW_SIZE){
-    for (int j = i; j < ROW_SIZE; j++){
-      if (board[j] != board[j + 1])
-	break;
-      if ((j - i) == ROW_SIZE - 1)
+    for (int j = 0; j < ROW_SIZE; j++){
+      if (board[(j + i)] != board[(j + i) + 1])
+	continue;
+      if (j + 1 == ROW_SIZE && board[j] != '0')
 	return *player;
     }
   }
