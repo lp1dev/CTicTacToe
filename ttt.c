@@ -52,7 +52,6 @@ int has_won(char *board, int *player){
     if (board[i] != board[i + acc])
       break;
     if ((i + acc) + 1 == (BOARD_SIZE) && board[i] != '0'){
-      printf("RIGHT DIAGONAL !\n");
       return *player;
     }
   }
@@ -75,7 +74,7 @@ int has_won(char *board, int *player){
 }
 
 int process_input(char *board, int input, int *player, int *winner){
-  char playerChar = *player ? 'O' : 'X';
+  char playerChar = *player == 1? 'O' : 'X';
 
   if (input > BOARD_SIZE)
     write(STDOUT, "INPUT ERROR\n", 12);
@@ -83,7 +82,7 @@ int process_input(char *board, int input, int *player, int *winner){
     write(STDOUT, "INVALID MOVE\n", 13);
   else {
     board[input] = playerChar;
-    *player = !(*player);
+    *player = *player == 2 ? 1 : 2;
     print_board(board);
     if (*winner = has_won(board, player)){
       return false;
@@ -97,7 +96,7 @@ int game(){
   char board[BOARD_SIZE];
   int userInput;
   int winner = -1;
-  int player = 0;
+  int player = 1;
 
   clear_board(&board);
   print_board(&board);
