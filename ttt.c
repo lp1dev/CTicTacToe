@@ -82,12 +82,12 @@ int process_input(char *board, int input, int *player, int *winner){
     write(STDOUT, "INVALID MOVE\n", 13);
   else {
     board[input] = playerChar;
-    *player = *player == 2 ? 1 : 2;
     print_board(board);
     if (*winner = has_won(board, player)){
       return false;
     }
   }
+  *player = *player == 2 ? 1 : 2;
   return true;
 }
 
