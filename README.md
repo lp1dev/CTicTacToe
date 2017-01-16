@@ -1,5 +1,6 @@
 # CTicTacToe
-Tic Tac Toe Game in C
+
+C implementation of the TicTacToe game (cli version)
 
 ## Done
 
